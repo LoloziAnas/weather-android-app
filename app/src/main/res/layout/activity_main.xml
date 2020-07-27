@@ -15,19 +15,19 @@
 
         <EditText
             android:id="@+id/edt_search"
-            android:layout_width="331dp"
+            android:layout_width="214dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:hint="City" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_search"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="@drawable/app_shaps"
             android:backgroundTint="@color/colorPrimary"
-            android:src="@android:drawable/ic_menu_send"
             android:onClick="search"
+            android:src="@android:drawable/ic_menu_send"
+            android:text="Search"
             android:textColor="#FFF" />
 
     </LinearLayout>

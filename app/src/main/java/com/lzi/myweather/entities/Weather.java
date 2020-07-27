@@ -8,6 +8,7 @@ public class Weather {
     private double max_temperature;
     private double pressure;
     private int humidity;
+    private String image;
 
     public String getDate() {
         return date;
@@ -23,6 +24,10 @@ public class Weather {
 
     public double getPressure() {
         return pressure;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public int getHumidity() {
@@ -47,5 +52,9 @@ public class Weather {
 
     public void setHumidity(int humidity) {
         this.humidity = humidity;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

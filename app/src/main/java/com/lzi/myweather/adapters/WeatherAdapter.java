@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class WeatherAdapter extends BaseAdapter {
         double max_temp = weather.getMax_temperature();
         double pressure = weather.getPressure();
         int humidity = weather.getHumidity();
+        String img = weather.getImage();
 
         TextView tv_date = convertView.findViewById(R.id.tv_datetime);
         tv_date.setText(date+"");
@@ -67,6 +69,8 @@ public class WeatherAdapter extends BaseAdapter {
         TextView tv_humidity = convertView.findViewById(R.id.tv_humidity);
         tv_min.setText(tv_humidity+"");
 
+        ImageView imageView = convertView.findViewById(R.id.weather_icon);
+        //imageView.setImageResource();
         return convertView;
     }
 }

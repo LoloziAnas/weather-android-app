@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Weather> list_weather;
     private WeatherAdapter weatherAdapter;
     private static final String URL = "https://samples.openweathermap.org/data/2.5/forecast?q=";
-    private static final String KEY = "0c8e90125f58726c059d6503a7270257";
+    private static final String KEY = "&appid=0c8e90125f58726c059d6503a7270257";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

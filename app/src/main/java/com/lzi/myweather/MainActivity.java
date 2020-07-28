@@ -6,8 +6,10 @@ import android.app.DownloadManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,10 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText edtSearch;
     private ListView listWeathers;
-    private List<Weather> list_weather;
+    private Button search_btn;
+
+    private List<Weather> list_weather = new ArrayList<>();;
     private WeatherAdapter weatherAdapter;
+
+    private RequestQueue queue;
+    private StringRequest stringRequest;
+
     private static final String URL = "https://samples.openweathermap.org/data/2.5/forecast?q=";
     private static final String KEY = "&appid=0c8e90125f58726c059d6503a7270257";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +53,17 @@ public class MainActivity extends AppCompatActivity {
 
         edtSearch = findViewById(R.id.edt_search);
         listWeathers = findViewById(R.id.list_weathers);
-        list_weather = new ArrayList<>();
+        search_btn = findViewById(R.id.btn_search);
+
         weatherAdapter = new WeatherAdapter(this,list_weather);
 
-
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
         listWeathers.setAdapter(weatherAdapter);
-    }
-
-    private void showAdapter(List<Weather> list_w){
     }
 
     private void jsonToList(JSONObject jsonObject){
@@ -62,27 +74,39 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
-    public void search(View view) {
+    private void search() {
+        //Clean the list of weather
         list_weather.clear();
         weatherAdapter.notifyDataSetChanged();
+
 
         String city = edtSearch.getText().toString();
         String f_url = URL+city+KEY;
 
         Log.i("URL",f_url);
-        RequestQueue queue = Volley.newRequestQueue(this);
+        //RequestQueue initialized
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, f_url,
+        queue = Volley.newRequestQueue(this);
+
+        //String Request initialized
+        stringRequest = new StringRequest(Request.Method.GET, f_url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.i("RESPONSE",response);
                         try {
+                            //display the response on screen as a Toast
+                            Toast.makeText(getApplicationContext(),"Response :" + response.toString(), Toast.LENGTH_LONG).show();
+
                             //Create a JSONObject to store the response from the API
                             JSONObject jsonObject = new JSONObject(response);
+
                             Weather weather = new Weather();
+
                             //Create a JSONArray object to put the information of "list"
                             JSONArray jsonArray = jsonObject.getJSONArray("list");
+
+                            //Parsing JSON
                             for (int i =0; i<jsonArray.length(); i++){
 
                                 JSONObject jsonObjectOfList = jsonArray.getJSONObject(i);
@@ -101,14 +125,16 @@ public class MainActivity extends AppCompatActivity {
                                 weather.setMax_temperature(temp_max);
                                 weather.setPressure(pressure);
                                 weather.setHumidity(humidity);
+
                                 list_weather.add(weather);
                             }
-
-                            weatherAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        // notifying list adapter about data changes so that it renders the list view with updated data
+                        weatherAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override

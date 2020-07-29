@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class activity_splash_screen extends AppCompatActivity {
 
-    private Animation top_anim, bottom_anim;
+    Animation top_anim, bottom_anim;
     private ImageView img_logo;
     private TextView tv_logo;
     Handler handler;
